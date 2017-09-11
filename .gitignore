@@ -1,0 +1,43 @@
+### You need to do this first:
+# 1 .Enable External option in Unity → Preferences → Packages → Repository (only if Unity ver < 4.5)
+# 2. Switch to Visible Meta Files in Edit → Project Settings → Editor → Version Control Mode
+# 3. Switch to Force Text in Edit → Project Settings → Editor → Asset Serialization Mode
+# 4. Save Scene and Project from File menu.
+# 5. Quit Unity and then you can delete the Library and Temp directory in the project directory. You can delete everything but keep the Assets and ProjectSettings directory.
+
+
+
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Obj/
+UnityGenerated/
+Library/
+Assets/AssetStoreTools*
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
