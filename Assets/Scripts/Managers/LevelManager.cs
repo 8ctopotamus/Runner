@@ -17,6 +17,8 @@ public class LevelManager {
 
 	// define constants.
 	private const int LEVELS_PER_WORLD = 4;
+	private const int MAXIMUM_WORLD = 1;
+	private const int MAXIMUM_LEVEL = 1;
 
 	// variables to keep track of current level.
 	private int world = 1;
@@ -29,7 +31,12 @@ public class LevelManager {
 	public void LoadLevel (int world, int level) {
 		this.world = world;
 		this.level = level;
-		SceneManager.LoadScene("Level" + world + "-" + level);
+
+		if (world > MAXIMUM_WORLD || (world == MAXIMUM_WORLD && level > MAXIMUM_LEVEL)) {
+			SceneManager.LoadScene("Menu");
+		} else {
+			SceneManager.LoadScene("Level" + world + "-" + level);
+		}
 	}
 
 	public void LoadNextLevel () {
