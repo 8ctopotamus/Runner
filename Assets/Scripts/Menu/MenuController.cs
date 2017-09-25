@@ -8,7 +8,7 @@ public class MenuController : MonoBehaviour {
 	public GameObject helpPanel;
 
 	public void OnPressPlay () {
-		SceneManager.LoadScene ("Level1-1");
+		LevelManager.Instance.LoadLevel(1, 1);
 	}
 
 	public void OnPressHelp () {

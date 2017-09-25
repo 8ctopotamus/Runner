@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
 	[Header("Jumping Fields")]
 	public float normalJumpingSpeed = 6f;
 	public float longJumpingSpeed = 10f;
+	public float destroyEnemyJumpingSpeed = 9f;
 	public float jumpDuration = 0.75f;
 	public float verticalWallJumpingSpeed = 5f;
 	public float horizontalWallJumpingSpeed = 3.5f;
@@ -148,7 +149,7 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerEnter(Collider otherCollider) {
 		// Collect coins
-		if(otherCollider.transform.GetComponent<Coin>() != null) {
+		if (otherCollider.transform.GetComponent<Coin>() != null) {
 			Destroy(otherCollider.gameObject);
 			onCollectCoin ();
 		}
@@ -231,18 +232,18 @@ public class Player : MonoBehaviour {
 
 	void Kill () {
 		dead = true;
-		GetComponent<BoxCollider> ().enabled = false;
+		GetComponent<Collider> ().enabled = false;
 		GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		GetComponent<Rigidbody> ().AddForce (new Vector3(0f, 500f, -400f));
 	}
 
-	public void Jump (bool forced = false) {
+	public void Jump (bool hitEnemy = false) {
 		jumping = true;
 
-		if (forced) {
+		if (hitEnemy) {
 			GetComponent<Rigidbody>().velocity = new Vector3(
 				GetComponent<Rigidbody>().velocity.x,
-				jumpingSpeed,
+				destroyEnemyJumpingSpeed,
 				GetComponent<Rigidbody>().velocity.z
 			);
 		}
@@ -280,5 +281,15 @@ public class Player : MonoBehaviour {
 
 		model.SetActive (true);
 		hasInvincibility = false;
+	}
+
+	public void OnDestroyBrick () {
+		GetComponent<Rigidbody> ().velocity = new Vector3 (
+			GetComponent<Rigidbody> ().velocity.x,
+			0,
+			GetComponent<Rigidbody> ().velocity.z
+		);
+		canJump = false;
+		jumping = false;
 	}
 }

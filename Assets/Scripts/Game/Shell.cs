@@ -6,6 +6,7 @@ public class Shell : MonoBehaviour {
 
 	public float rotatingSpeed = 180f;
 	public float movementSpeed = 10f;
+	public float radiusTolerance = 0.4f;
 
 	private bool movingRight = true;
 
@@ -30,7 +31,10 @@ public class Shell : MonoBehaviour {
 	void OnTriggerEnter (Collider otherCollider) {
 		if (otherCollider.GetComponent<Enemy> () != null) {
 			Destroy (otherCollider.gameObject);
-		} else {
+		}
+		else if (otherCollider.GetComponent<Destroyer> () || otherCollider.tag == "JumpingArea") {
+			return;
+		} else if (transform.position.y < otherCollider.transform.position.y + radiusTolerance) {
 			// bounce
 			if (transform.position.x < otherCollider.transform.position.x && movingRight == true) {
 				movingRight = false;
@@ -39,4 +43,20 @@ public class Shell : MonoBehaviour {
 			}
 		}
 	}
+
+	void OnCollisionEnter (Collision collision) {
+		if (collision.gameObject.GetComponent<Player> ()) {
+			return;
+		}
+
+		if (transform.position.y < collision.transform.position.y + radiusTolerance) {
+			// bounce
+			if (transform.position.x < collision.transform.position.x && movingRight == true) {
+				movingRight = false;
+			} else if (transform.position.x > collision.transform.position.x && movingRight == false) {
+				movingRight = true;
+			}
+		}
+	}
+
 }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
 	public Player player;
 	public Text scoreText;
 	public Text endLevelText;
+
+	public float gravity = 9.81f;
 
 	private int score;
 	private float restartTimer = 3f;
@@ -21,10 +22,12 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update () {
+		Physics.gravity = new Vector3 (0, -gravity, 0);
+
 		if (player.Dead) {
 			restartTimer -= Time.deltaTime;
 			if (restartTimer <= 0f) {
-				SceneManager.LoadScene (SceneManager.GetActiveScene().name);
+				LevelManager.Instance.ReloadLevel ();
 			}
 		}
 
@@ -36,7 +39,7 @@ public class GameController : MonoBehaviour {
 
 			finishTimer -= Time.deltaTime;
 			if (finishTimer <= 0f) {
-				SceneManager.LoadScene (SceneManager.GetActiveScene().name);
+				LevelManager.Instance.LoadNextLevel ();
 			}
 		}
 	}
@@ -48,7 +51,7 @@ public class GameController : MonoBehaviour {
 
 	void OnFinish () {
 		endLevelText.enabled = true;
-		endLevelText.text = "You beat " + SceneManager.GetActiveScene ().name + "!";
+		endLevelText.text = "You beat " + LevelManager.Instance.LevelName + "!";
 		endLevelText.text += "\nYour score: " + score;
 	}
 }
